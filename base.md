@@ -29,8 +29,8 @@ $$f^{'}(x)=f(x)(1-f(x))$$
 ReLU 全称为 Rectified Linear Unit，即修正线性单元函数。该函数的公式比较简单，相应的公式和图像如下表所示。
 * 函数公式
 $$ReLU(x)=\begin{cases}  
-0 & if \; x \leq 0\\
-x & if \; x > 0 
+0 & if & x \leq 0\\
+x & if & x > 0 
 \end{cases}$$
 
 <img src="asset/relu.png">
