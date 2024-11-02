@@ -54,9 +54,12 @@ $$ReLU(x)=\begin{cases}
 
 <img src="asset/mento_1.png">
 
-圆的面积：$$S_c = \pi r^2=\pi$$
-正方形的面积：$S_q = 2^2=4$
-概率：$P = \frac{\pi}{4}$
+圆的面积：
+$$S_c = \pi r^2=\pi$$
+正方形的面积：
+$S_q = 2^2=4$
+概率：
+$P = \frac{\pi}{4}$
 
 假设我们采样了$n$个点，利用圆的方程$(x-x_o)^2+(y-y_o)<1$，统计后有$m$个点落在圆内，因此我们得到
 $$\frac{m}{n}\approx\frac{\pi}{4}=>\pi\approx\frac{4m}{n}$$
