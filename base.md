@@ -84,7 +84,7 @@ $p(x)$: 概率密度函数（PDF），️以随机向量 $x$ 作为输入，输�
 
 $f(x)$ :是任意函数，以随机向量 $x$ 作为输入。
 
-期望: $\mathbb{E}_{X} = \int_{x \in X}f(x)p(x)dx$ 
+$\mathbb{E}_{X} = \int_{x \in X}f(x)p(x)dx$ 
 
 
 近似步骤：
