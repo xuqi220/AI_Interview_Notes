@@ -55,9 +55,11 @@ $$ReLU(x)=\begin{cases}
 <img src="asset/mento_1.png">
 
 圆的面积：
-$$S_c = \pi r^2=\pi$$
+$S_c = \pi r^2=\pi$
+
 正方形的面积：
 $S_q = 2^2=4$
+
 概率：
 $P = \frac{\pi}{4}$
 
