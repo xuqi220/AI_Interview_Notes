@@ -32,17 +32,30 @@ class MHAttention(nn.Module):
     def __init__(self, config:ModelConfig):
         super().__init__()
         assert config.n_embd%config.n_head == 0,"参数设置错误"
+        self.config = config
+        self.attn_w = nn.Linear(config.n_embd, 3*config.n_embd)
+    def forward(self,x):
+        B, T, C = x.shape
+        qkv = self.attn_w(x) # [B, T, C]->[B,T,3*C]
+        q, k, v = qkv.split(self.config.n_embd, dim=-1)
+        # [B, T, C]->[B, n_head, T, C/n_head]
+        q = q.view(B, T, self.config.n_head, C//self.config.n_head).transpose(2,1)
+        k = k.view(B, T, self.config.n_head, C//self.config.n_head).transpose(2,1)
+        v = v.view(B, T, self.config.n_head, C//self.config.n_head).transpose(2,1)
+        
+        
+        
         
         
 
 
 if __name__=="__main__":
-    config = ModelConfig()
-    att_net = SelfAttention(config)
-    sample = torch.randn((config.batch_size, config.block_size, config.n_embd))
-    out = att_net(sample)
-    print(out.is_contiguous())
-    # print(out)
+    # config = ModelConfig()
+    # att_net = SelfAttention(config)
+    # sample = torch.randn((config.batch_size, config.block_size, config.n_embd))
+    # out = att_net(sample)
+    # print(out.is_contiguous())
+    # # print(out)
     
         
         

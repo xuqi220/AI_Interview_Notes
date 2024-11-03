@@ -59,7 +59,7 @@ class SelfAttention(nn.Module):
 ```
 
 #### 2. Multi-Head Attention(MHA)
-MHA是Attention is All You Need这篇论文提出的对self-attention的一个改进，该算法通过将多个attention的计算结果拼接，得到最后的输出。由于需要保证拼接后的向量维度和输入向量的一致，因此每个头的维度小于输入向量的维度（ $dim_{input}=n_{head}*dim_{head}$ ）。多头注意力机制将原始输入信息映射到不同的向量子空间，有利于提升特征表示能力。
+MHA是Attention is All You Need这篇论文提出的对self-attention的一个改进，该算法通过将多个self-attention的计算结果拼接，得到最后的输出。由于需要保证拼接后的向量维度和输入向量的一致，因此每个头的维度小于输入向量的维度（ $dim_{input}=n_{head}*dim_{head}$ ）。多头注意力机制将原始输入信息映射到不同的向量子空间，有利于提升特征表示能力。
 
 **ShowMeTheCode:**
 ```
