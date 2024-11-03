@@ -20,10 +20,10 @@
 
 $$Attention(Q,K,V)=softmax(\frac{QK^T}{\sqrt{d}})V$$
 
-* 对于输入的词向量序列 $X$，首先通过矩阵转换获得 $Q$ 、 $K$ 、$V$ 
+* 对于输入的词向量序列 $X$，首先通过矩阵转换获得 $Q$ 、 $K$ 、 $V$ 
 * 利用 $Q$、$K$ 计算相关性分数,并对分数进行缩放 $\frac{QK^T}{\sqrt{d}}$,其中 $d$ 为隐藏层的维度。缩放可以使得softmax的输出更加平滑，使得模型更容易收敛。试想如果某个维度的分数过大，导致模型对该维度的特征过于敏感，不利于模型的学习收敛。
 * 利用softmax函数进行归一化处理,得到相关性分数 $score=softmax(\frac{QK^T}{\sqrt{d}})$
-* 利用相关性分数加权求和得到每个位置的表示。
+* 利用相关性分数加权求和得到每个位置的token表示。
 
 **ShowMetheCode**：
 ```
@@ -59,7 +59,7 @@ class SelfAttention(nn.Module):
 ```
 
 #### 2. Multi-Head Attention(MHA)
-MHA是Attention is All You Need这篇论文提出的对self-attention的一个改进，该算法通过将多个attention的计算结果拼接，得到最后的输出。由于需要保证拼接后的向量维度和输入向量的一致，因此每个头的维度小于输入向量的维度（$dim_{input}=n\_head*dim_{per\_head}$）。多头注意力机制将原始输入信息映射到不同的向量子空间，有利于提升特征表示能力。
+MHA是Attention is All You Need这篇论文提出的对self-attention的一个改进，该算法通过将多个attention的计算结果拼接，得到最后的输出。由于需要保证拼接后的向量维度和输入向量的一致，因此每个头的维度小于输入向量的维度（ $dim_{input}=n\_head*dim_{per\_head}$ ）。多头注意力机制将原始输入信息映射到不同的向量子空间，有利于提升特征表示能力。
 
 **ShowMeTheCode:**
 ```
