@@ -16,7 +16,7 @@
   
 ### 主流Attention
 
-#### Scaled Dot-Product Attention
+#### 1. Scaled Dot-Product Attention
 
 $$Attention(Q,K,V)=softmax(\frac{QK^T}{\sqrt{d}})V$$
 
@@ -58,20 +58,21 @@ class SelfAttention(nn.Module):
 
 ```
 
-#### Multi-Head Attention(MHA)
+#### 2. Multi-Head Attention(MHA)
 MHA是Attention is All You Need这篇论文提出的对self-attention的一个改进，该算法通过将多个attention的计算结果拼接，得到最后的输出。由于需要保证拼接后的向量维度和输入向量的一致，因此每个头的维度小于输入向量的维度（$dim_{input}=n\_head*dim_{per\_head}$）。多头注意力机制将原始输入信息映射到不同的向量子空间，有利于提升特征表示能力。
 
 **ShowMeTheCode:**
 ```
 
 ```
+#### 3. MHA+MASK实现CasualSelfAttention
 
-#### Multi Query Attention
-
-
-#### Grouped Query Attention
-
-#### MHA+MASK实现CasualSelfAttention
+#### 4. Multi-Query Attention
 
 
-#### Flash Attention
+#### 5. Grouped Query Attention
+
+
+
+
+#### 6. Flash Attention
