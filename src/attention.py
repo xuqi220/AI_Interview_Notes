@@ -5,9 +5,10 @@ import math
 
 @dataclass
 class ModelConfig:
-    batch_size = 6
-    block_size = 8
+    batch_size: int = 6
+    block_size: int = 8
     n_embd: int = 12
+    n_head: int = 2
 
 
 class SelfAttention(nn.Module):
@@ -28,7 +29,11 @@ class SelfAttention(nn.Module):
         return out
         
 class MHAttention(nn.Module):
-    pass
+    def __init__(self, config:ModelConfig):
+        super().__init__()
+        assert config.n_embd%config.n_head == 0,"参数设置错误"
+        
+        
 
 
 if __name__=="__main__":
