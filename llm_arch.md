@@ -70,9 +70,12 @@ MHA是Attention is All You Need这篇论文提出的对self-attention的一个�
 ```
 
 ```
-#### 3. Flash Attention
 
-#### 4. MHA+MASK实现CasualSelfAttention
+#### 3. MHA+MASK实现CasualSelfAttention
+
+#### 4. Flash Attention
+
+
 
 #### 5. Multi-Query Attention
 
