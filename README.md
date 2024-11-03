@@ -14,3 +14,5 @@ AI面试知识点整理
 ## 大模型对齐 llm_alignment 
 
 ## 大模型推理 llm_reasoning 
+
+## 大模型部署 llm_deploy 
