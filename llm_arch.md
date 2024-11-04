@@ -1,11 +1,7 @@
 # LLM 模型结构
 
 ## Tokenization
-
-
-## Position Embedding
-
-## Normalization
+对于深度学习模型来说，处理文本时的基本单元叫做Token，一个token可以包括多个词或者字。
 
 ## Attention
 
@@ -203,12 +199,28 @@ class CasualAttention(nn.Module):
 
 #### 4. Flash Attention
 
-
-
 #### 5. Multi-Query Attention
 
-
 #### 6. Grouped Query Attention
+
+## Position Embedding
+通过对Attention的介绍，我们发现Attention是位置不敏感的，它同等的对待每个位置的Token。例如 `天气晴朗，适合露营` 和 `露营晴朗，适合天气` 两句话中的每个词的表示是一致的。然而现实中，第二句话基本不会被使用，对于语言模型来说，第一个句子的概率应该大于第二句话。但是基于Attention的语言模型对两句话分配的概率相等。因此，为了区分开两句话，需要加入位置信息。加入位置信息的方式大致分为两种：
+* 将位置信息加入到输入词序列中--**绝对位置编码**
+* 通过修改Attention，使得Attention能动态识别不同的位置的Token--**相对位置编码**
+
+### 绝对位置编码
+
+### 相对位置编码
+
+相对位置并没有完整建模每个输入的位置信息，而是在算Attention的时候考虑当前位置与被Attention的位置的相对距离，由于自然语言一般更依赖于相对位置，所以相对位置编码通常也有着优秀的表现。对于相对位置编码来说，它的灵活性更大。
+
+### 旋转位置编码 RoPE
+
+
+
+
+## Normalization
+
 
 
 

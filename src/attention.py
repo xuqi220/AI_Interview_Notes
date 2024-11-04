@@ -86,18 +86,6 @@ class CasualAttention(nn.Module):
         out = self.proj_w(out)
         return out
         
-        
-        
-        
-        
- 
-        
-        
-        
-        
-        
-
-
 if __name__=="__main__":
     config = ModelConfig()
     att_net = CasualAttention(config)
