@@ -252,8 +252,8 @@ $$f(q, m) \cdot f(k, n)=\mathbb{g}(q,k,(m-n))$$
 结果：
 
 $$f(q,m)=R_mq=\left (\begin{matrix}
-   \cos m \theta & -\sin m \theta  \\
-   \sin m \theta & \cos m \theta  
+   \cos \; m \theta & -\sin \;  m \theta  \\
+   \sin \;  m \theta & \cos \;  m \theta  
   \end{matrix}\right )q$$
 
 结果显示，要找的这个 $f$是一个旋转矩阵，原来token间的相对位置可以用旋转矩阵表示。带入到 $<f(q, m),f(k, n)>$得到：
