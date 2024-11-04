@@ -7,7 +7,7 @@ AI面试知识点整理
 
 ## 大模型基础组件 llm_arch 
 
-## 大模型训练 llm_training 
+## 大模型训练 llm_pretraining 
 
 ## 大模型监督微调 llm_sft 
 
