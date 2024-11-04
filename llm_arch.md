@@ -1,9 +1,9 @@
 # LLM 模型结构
 
-## Tokenization
+## 一、Tokenization
 对于深度学习模型来说，处理文本时的基本单元叫做Token，一个token可以包括多个词或者字。
 
-## Attention
+## 二、Attention
 
 在自然语言处理任务中，通过引入Attention机制实现动态的根据上下文中的具体信息计算当前字符的表示。当前字符的表示是上下文字符表示加权求和的结果。一般Attention的计算流程如下：
 *  计算查询（Query）、键（Key）、值（Value）
@@ -203,7 +203,7 @@ class CasualAttention(nn.Module):
 
 #### 6. Grouped Query Attention
 
-## Position Embedding
+## 三、Position Embedding
 通过对Attention的介绍，我们发现Attention是位置不敏感的，它同等的对待每个位置的Token。例如 `天气晴朗，适合露营` 和 `露营晴朗，适合天气` 两句话中的每个词的表示是一致的。然而现实中，第二句话基本不会被使用，对于语言模型来说，第一个句子的概率应该大于第二句话。但是基于Attention的语言模型对两句话分配的概率相等。因此，为了区分开两句话，需要加入位置信息。加入位置信息的方式大致分为两种：
 * 将位置信息加入到输入词序列中--**绝对位置编码**
 * 通过修改Attention，使得Attention能动态识别不同的位置的Token--**相对位置编码**
@@ -239,10 +239,12 @@ $$k_n=f(k, n)$$
 
 $f$ 表示对输入向量添加位置信息，其中 $q$, $k$ 分布表示query向量和key向量；$q_m$, $k_n$ 表示添加了对应位置信息的向量。然后计算注意力分数：
 
-$$a_{mn}=\frac{e^{\frac{<q_m,k_n>}{\sqrt{d}}}}{\sum_{j=1}^{N}e^{\frac{<q_m,k_j>}{\sqrt{d}}}}$$
+$$a_{mn}=\frac{e^{<q_m,k_n>/\sqrt{d}}}{\sum_{j=1}^{N}e^{<q_m,k_j>/\sqrt{d}}}$$
 
 RoPE的思路是希望找到一个 $f$ 使得：
+
 $$<f(q, m),f(k, n)>=g(q,k,(m-n))$$
+
 即：**通过函数 $f$ 对 $q$, $k$ 操作后的内积结果是 $q$, $k$ 相对位置的函数！！！**
 
 为了简化问题，我们先假设词向量是二维的。作者借助复数来进行求解推导过程如下：
@@ -250,6 +252,8 @@ $$<f(q, m),f(k, n)>=g(q,k,(m-n))$$
 结果：
 $$f(q,m)=R_mq=\left(\begin{array}{cc}\cos m \theta & -\sin m \theta \\ \sin m \theta & \cos m \theta\end{array}\right)q$$
 结果显示，要找的这个 $f$是一个旋转矩阵，原来token间的相对位置可以用旋转矩阵表示。带入到 $<f(q, m),f(k, n)>$得到：
+
+$$<f(q, m),f(k, n)>=$$
 
 
 ## Normalization
