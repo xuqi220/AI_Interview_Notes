@@ -62,10 +62,10 @@ class CasualAttention(nn.Module):
         self.config = config
         self.attn_w = nn.Linear(config.n_embd, config.n_embd*3)
         self.proj_w = nn.Linear(config.n_embd, config.n_embd)
-        self.register_buffer( # MASK
-            "bias", 
-            torch.tril(torch.ones(self.config.block_size, self.config.block_size)).view(1,1, self.config.block_size,self.config.block_size)
-        )
+        # self.register_buffer( # MASK
+        #     "bias", 
+        #     torch.tril(torch.ones(self.config.block_size, self.config.block_size)).view(1,1, self.config.block_size,self.config.block_size)
+        # )
     def forward(self, x):
         B, T, C = x.shape
         # 获取Q，K，V
