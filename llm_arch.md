@@ -256,10 +256,13 @@ $$f(q,m)=R_mq=\left (\begin{matrix}
    \sin m \theta & \cos  m \theta  
   \end{matrix}\right )q$$
 
-结果显示，要找的这个 $f$是一个旋转矩阵，原来token间的相对位置可以用旋转矩阵表示。带入到 $<f(q, m),f(k, n)>$得到：
+结果显示，要找的这个 $f$是一个旋转矩阵，原来token间的相对位置可以用旋转矩阵表示。带入到 $f(q, m) \cdot f(k, n)$ 得到：
 
-$$<f(q, m),f(k, n)>=$$
+$$f(q, m) \cdot f(k, n)=(R_mq)^T \cdot R_nk=q^TR_{n-m}k$$
 
+参考：
+
+[图解RoPE旋转位置编码及其特性](https://mp.weixin.qq.com/s/-1xVXjoM0imXMC7DKqo-Gw)
 
 ## Normalization
 
