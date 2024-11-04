@@ -15,6 +15,7 @@ class SelfAttention(nn.Module):
     def __init__(self, config: ModelConfig):
         super().__init__()
         self.attn_w = nn.Linear(config.n_embd, 3*config.n_embd)
+        self.proj_w = nn.Linear(config.n_embd, config.n_embd)
     
     def forward(self, x):
         # 计算Q，K，V
@@ -23,10 +24,10 @@ class SelfAttention(nn.Module):
         # 计算相关性分数
         atten_score = q@k.transpose(-2,-1)/(1/math.sqrt(q.shape[-1]))#[B, T, T]
         # 归一化相关性分数
-        atten_score = torch.softmax(atten_score,dim=-1)#[B, T, T]
+        atten_score = torch.softmax(atten_score, dim=-1)#[B, T, T]
         # 加权求和
         out = atten_score@v # [B, T, C]
-        return out
+        return self.proj_w(out)
         
 class MHAttention(nn.Module):
     def __init__(self, config:ModelConfig):
@@ -34,14 +35,30 @@ class MHAttention(nn.Module):
         assert config.n_embd%config.n_head == 0,"参数设置错误"
         self.config = config
         self.attn_w = nn.Linear(config.n_embd, 3*config.n_embd)
+        self.proj_w = nn.Linear(config.n_embd, config.n_embd)
+        
     def forward(self,x):
         B, T, C = x.shape
+        # 获取Q，K，V矩阵
         qkv = self.attn_w(x) # [B, T, C]->[B,T,3*C]
         q, k, v = qkv.split(self.config.n_embd, dim=-1)
         # [B, T, C]->[B, n_head, T, C/n_head]
         q = q.view(B, T, self.config.n_head, C//self.config.n_head).transpose(2,1)
         k = k.view(B, T, self.config.n_head, C//self.config.n_head).transpose(2,1)
         v = v.view(B, T, self.config.n_head, C//self.config.n_head).transpose(2,1)
+        # 计算相关性分数
+        attn_score = q@k.transpose(-2,-1)/(1/math.sqrt(C//self.config.n_head)) # [B, n_head, T, T]
+        # 相关性分数归一化
+        attn_score = attn_score.softmax(dim=-1)
+        # 对v加权求和
+        out = attn_score@v # [B, n_head, T, C/n_head]
+        out = out.transpose(1,2).contiguous().view(B, T, C)
+        return self.proj_w(out)
+    
+class CasualAttention(nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
         
         
         
@@ -50,12 +67,12 @@ class MHAttention(nn.Module):
 
 
 if __name__=="__main__":
-    # config = ModelConfig()
-    # att_net = SelfAttention(config)
-    # sample = torch.randn((config.batch_size, config.block_size, config.n_embd))
-    # out = att_net(sample)
-    # print(out.is_contiguous())
-    # # print(out)
+    config = ModelConfig()
+    att_net = MHAttention(config)
+    sample = torch.randn((config.batch_size, config.block_size, config.n_embd))
+    out = att_net(sample)
+    print(out.is_contiguous())
+    # print(out)
     
         
         
