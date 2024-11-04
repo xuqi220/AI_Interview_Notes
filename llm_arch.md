@@ -239,7 +239,7 @@ $$k_n=f(k, n)$$
 
 $f$ 表示对输入向量添加位置信息，其中 $q$, $k$ 分布表示query向量和key向量；$q_m$, $k_n$ 表示添加了对应位置信息的向量。然后计算注意力分数：
 
-$$a_{mn}=\frac{e^{q_m \cdot k_n / \sqrt{d}}}{\sum_{j=1}^{N}e^{<q_m,k_j>/\sqrt{d}}}$$
+$$a_{mn}=\frac{e^{(q_m \cdot k_n) / \sqrt{d}}}{\sum_{j=1}^{N}e^{(q_m \cdot k_j)/ \sqrt{d}}}$$
 
 RoPE的思路是希望找到一个 $f$ 使得：
 
