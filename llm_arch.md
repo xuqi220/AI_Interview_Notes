@@ -247,11 +247,14 @@ $$f(q, m) \cdot f(k, n)=\mathbb{g}(q,k,(m-n))$$
 
 即：**通过函数 $f$ 对 $q$, $k$ 操作后的内积结果是 $q$, $k$ 相对位置的函数！！！**
 
-为了简化问题，我们先假设词向量是二维的。作者借助复数来进行求解推导过程如下：
+为了简化问题，我们先假设词向量是二维的。作者借助复数来进行求解推导过程如下(省略)：
 
 结果：
 
-$$f(q,m)=R_mq=\left(\begin{array}{cc}\cos m \theta & -\sin m \theta \\ \sin m \theta & \cos m \theta\end{array}\right)q$$
+$$f(q,m)=R_mq=\left (\begin{matrix}
+   \cos m \theta & -\sin m \theta  \\
+   \sin m \theta & \cos m \theta  
+  \end{matrix}\right )q$$
 
 结果显示，要找的这个 $f$是一个旋转矩阵，原来token间的相对位置可以用旋转矩阵表示。带入到 $<f(q, m),f(k, n)>$得到：
 
