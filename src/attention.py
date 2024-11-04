@@ -66,7 +66,7 @@ class CasualAttention(nn.Module):
             "bias", 
             torch.tril(torch.ones(self.config.block_size, self.config.block_size)).view(1,1, self.config.block_size,self.config.block_size)
         )
-    def froward(self, x):
+    def forward(self, x):
         B, T, C = x.shape
         # 获取Q，K，V
         qkv = self.attn_w(x) # [B, T, C]->[B, T, C*3]
@@ -76,7 +76,7 @@ class CasualAttention(nn.Module):
         k = k.view(B, T, self.config.n_head, C//self.config.n_head).transpose(1,2)
         v = v.view(B, T, self.config.n_head, C//self.config.n_head).transpose(1,2)
         # 计算相关性分数
-        attn_score = q@k.tranpose(-2,-1) # [B, n_head, T, T]
+        attn_score = q@k.transpose(-2,-1) # [B, n_head, T, T]
         # mask for casual attention
         attn_score = attn_score.masked_fill(mask=self.bias[:,:,:T,:T]==0, value=float("-inf"))
         # 归一化相关性分数

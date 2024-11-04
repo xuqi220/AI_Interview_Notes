@@ -113,7 +113,50 @@ MASK机制主要通过将注意力分数（未归一化）的上三角矩阵元�
 
 **ShowMeTheCode:**
 ```
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from dataclasses import dataclass
+import math
 
+@dataclass
+class ModelConfig:
+    batch_size: int = 6
+    block_size: int = 8
+    n_embd: int = 12
+    n_head: int = 2
+    
+class CasualAttention(nn.Module):
+    def __init__(self, config:ModelConfig):
+        super().__init__()
+        self.config = config
+        self.attn_w = nn.Linear(config.n_embd, config.n_embd*3)
+        self.proj_w = nn.Linear(config.n_embd, config.n_embd)
+        self.register_buffer( # MASK
+            "bias", 
+            torch.tril(torch.ones(self.config.block_size, self.config.block_size)).view(1,1, self.config.block_size,self.config.block_size)
+        )
+    def forward(self, x):
+        B, T, C = x.shape
+        # 获取Q，K，V
+        qkv = self.attn_w(x) # [B, T, C]->[B, T, C*3]
+        q, k, v = qkv.split(C, dim=-1) # [B, T, C]
+        # 多头 [B, n_head, T, C//n_head]
+        q = q.view(B, T, self.config.n_head, C//self.config.n_head).transpose(1,2) 
+        k = k.view(B, T, self.config.n_head, C//self.config.n_head).transpose(1,2)
+        v = v.view(B, T, self.config.n_head, C//self.config.n_head).transpose(1,2)
+        # 计算相关性分数
+        attn_score = q@k.transpose(-2,-1) # [B, n_head, T, T]
+        # mask for casual attention
+        attn_score = attn_score.masked_fill(mask=self.bias[:,:,:T,:T]==0, value=float("-inf"))
+        # 归一化相关性分数
+        attn_score = F.softmax(attn_score, dim=-1)
+        # 加权求和
+        out = attn_score@v # [B, n_head, T, C//n_head]
+        out = out.transpose(1,2).contiguous().view(B, T, C) # [B, T, C]
+        out = self.proj_w(out)
+        return out
+        
 ```
 
 **ShowMeTheCode(Flash_attention版本):**
