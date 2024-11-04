@@ -11,7 +11,6 @@ class ModelConfig:
     n_embd: int = 12
     n_head: int = 2
 
-
 class SelfAttention(nn.Module):
     def __init__(self, config: ModelConfig):
         super().__init__()
