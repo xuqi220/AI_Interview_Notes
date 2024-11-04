@@ -243,7 +243,7 @@ $$a_{mn}=\frac{e^{(q_m \cdot k_n) / \sqrt{d}}}{\sum_{j=1}^{N}e^{(q_m \cdot k_j)/
 
 RoPE的思路是希望找到一个 $f$ 使得：
 
-$$f(q, m) \cdot f(k, n)=g(q,k,(m-n))$$
+$$f(q, m) \cdot f(k, n)=\mathbb{g}(q,k,(m-n))$$
 
 即：**通过函数 $f$ 对 $q$, $k$ 操作后的内积结果是 $q$, $k$ 相对位置的函数！！！**
 
