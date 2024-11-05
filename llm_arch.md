@@ -260,12 +260,14 @@ $$f(q,m)=R_mq=\left (\begin{matrix}
 
 $$f(q, m) \cdot f(k, n)=(R_mq)^T \cdot R_nk=q^TR_{n-m}k$$
 
+
 参考：
 
 [图解RoPE旋转位置编码及其特性](https://mp.weixin.qq.com/s/-1xVXjoM0imXMC7DKqo-Gw)
 
-## Normalization
+## 四、Normalization
 
+## 五、Feed Forward Neural Network
 
 
 
