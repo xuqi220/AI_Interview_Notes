@@ -324,13 +324,62 @@ calculated by numpy:
 ```
 从结果我们看到，两种计算方式的输出是一致的。
 
-### RMSNormal （Root Mean Square Normalization）
+### RMSNorm （Root Mean Square Layer Normalization）
 
 $$ y = \frac{x}{\sqrt{\frac{\sum_{i=1}^{N}x_i^2}{N}}}\cdot \gamma$$ 
 
+Pytorch提供了相应的[接口](https://pytorch.org/docs/stable/generated/torch.nn.RMSNorm.html#rmsnorm)。其中，均方根$RMS=\sqrt{\frac{\sum_{i=1}^{N}x_i^2}{N}}$
+根据公式我们看到，相比于LayerNormalization，RMSN计算相对简单。
 
+**ShowMeTheCode:**
+```
+import torch
+import torch.nn as nn
+class RMSNorm(torch.nn.Module):
+    def __init__(self, dim: int, eps: float = 1e-6):
+        """
+        Initialize the RMSNorm normalization layer.
 
-根据公式我们看到，相比于LayerNormalization，RMSN不需要计算均值
+        Args:
+            dim (int): The dimension of the input tensor.
+            eps (float, optional): A small value added to the denominator for numerical stability. Default is 1e-6.
+
+        Attributes:
+            eps (float): A small value added to the denominator for numerical stability.
+            weight (nn.Parameter): Learnable scaling parameter.
+
+        """
+        super().__init__()
+        self.eps = eps
+        self.weight = nn.Parameter(torch.ones(dim))
+
+    def _norm(self, x):
+        """
+        Apply the RMSNorm normalization to the input tensor.
+
+        Args:
+            x (torch.Tensor): The input tensor.
+
+        Returns:
+            torch.Tensor: The normalized tensor.
+
+        """
+        return x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps)
+
+    def forward(self, x):
+        """
+        Forward pass through the RMSNorm layer.
+
+        Args:
+            x (torch.Tensor): The input tensor.
+
+        Returns:
+            torch.Tensor: The output tensor after applying RMSNorm.
+
+        """
+        output = self._norm(x.float()).type_as(x)
+        return output * self.weight
+```
 
 
 ## 五、Feed Forward Neural Network
