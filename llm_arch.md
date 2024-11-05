@@ -267,6 +267,72 @@ $$f(q, m) \cdot f(k, n)=(R_mq)^T \cdot R_nk=q^TR_{n-m}k$$
 
 ## 四、Normalization
 
+[为什么需要归一化？](https://www.pinecone.io/learn/batch-layer-normalization/)
+
+### Batch Normalization
+
+### Layer Normalization
+
+$$y=\frac{x-E(x)}{\sqrt{Var[x]+\epsilon}} \times \gamma+ \beta$$
+
+根据公式可知，LayerNorm是对数据做了均值方差归一化，然后做了一个线性变换。[Layer Normalization的Pytorch接口](https://pytorch.org/docs/stable/generated/torch.nn.LayerNorm.html#torch.nn.LayerNorm) 需要提供用于计算均值和方差的维度。For example, if normalized_shape is (3, 5) (a 2-dimensional shape), the mean and standard-deviation are computed over the last 2 dimensions of the input (i.e. input.mean((-2, -1))).
+
+我们通过两种不同的实现方式计算张量LayerNormalization，从而了解其内在细节。
+
+**ShowMeTheCode(Pytorch 版本):**
+```
+import torch
+import torch.nn as nn
+import torch.nn
+import numpy as np
+
+# 2 * 2 * 3
+a = torch.tensor([[[1.0,2.0,3.0],
+                 [4.0,5.0,6.0]],
+                [[1.0,2.0,3.0],
+                 [4.0,5.0,6.0]]])
+
+print("calculated by pytorch:")
+ln = nn.LayerNorm(normalized_shape=(a.shape[-2], a.shape[-1]), elementwise_affine=False)
+print(ln(a))
+
+
+print("calculated by numpy:")
+# 将axis指定的维度展开，计算均值
+mean = np.mean(a.numpy(), axis=(1,2))
+# 将axis指定的维度展开，计算方差
+var = np.var(a.numpy(), axis=(1,2))
+div = np.sqrt(var)+1e-5
+# 计算结果
+res = (a.numpy()-mean[:,None,None])/div[:,None, None]
+print(res)
+
+-------------------------output----------------------
+calculated by pytorch:
+tensor([[[-1.4638, -0.8783, -0.2928],
+         [ 0.2928,  0.8783,  1.4638]],
+
+        [[-1.4638, -0.8783, -0.2928],
+         [ 0.2928,  0.8783,  1.4638]]])
+
+calculated by numpy:
+[[[-1.4638414 -0.8783049 -0.2927683]
+  [ 0.2927683  0.8783049  1.4638414]]
+
+ [[-1.4638414 -0.8783049 -0.2927683]
+  [ 0.2927683  0.8783049  1.4638414]]]
+```
+从结果我们看到，两种计算方式的输出是一致的。
+
+### RMSNormal （Root Mean Square Normalization）
+
+$$ y = \frac{x}{\sqrt{\frac{\sum_{i=1}^{N}x_i^2}{N}}}\cdot \gamma$$ 
+
+
+
+根据公式我们看到，相比于LayerNormalization，RMSN不需要计算均值
+
+
 ## 五、Feed Forward Neural Network
 
 
