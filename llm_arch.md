@@ -326,9 +326,9 @@ calculated by numpy:
 
 ### RMSNorm （Root Mean Square Layer Normalization）
 
-$$ y = \frac{x}{\sqrt{\frac{\sum_{i=1}^{N}x_i^2}{N}}}\cdot \gamma$$ 
+$$y = \frac{x}{\sqrt{\frac{\sum_{i=1}^{N}x_i^2}{N}}}\cdot \gamma$$ 
 
-Pytorch提供了相应的[接口](https://pytorch.org/docs/stable/generated/torch.nn.RMSNorm.html#rmsnorm)。其中，均方根$RMS=\sqrt{\frac{\sum_{i=1}^{N}x_i^2}{N}}$
+Pytorch提供了相应的[接口](https://pytorch.org/docs/stable/generated/torch.nn.RMSNorm.html#rmsnorm)。其中，均方根 $RMS=\sqrt{\frac{\sum_{i=1}^{N}x_i^2}{N}}$ 
 根据公式我们看到，相比于LayerNormalization，RMSN计算相对简单。
 
 **ShowMeTheCode:**
