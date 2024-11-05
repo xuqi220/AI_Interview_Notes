@@ -380,6 +380,7 @@ class RMSNorm(torch.nn.Module):
         output = self._norm(x.float()).type_as(x)
         return output * self.weight
 ```
+上述代码是Llama的源码对RMSN的实现。基本遵循了上述公式
 
 
 ## 五、Feed Forward Neural Network
