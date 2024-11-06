@@ -1,17 +1,17 @@
 # 深度学习基础
-## 激活函数
+## 一、激活函数
 为什么要在网络中引入激活函数？如果不引入激活函数那么我们的网络是这个样子的 $f(x)=A(B(CX))=ABCX=DX,ABC=D$ 。那么，我们的神经网络的就变成了一个线性函数，是空间中的一个超平面，大大限制了神经网络的拟合能力。激活函数就是给神经网络引入非线性，使得神经网络可以拟合各种复杂函数。那么任何激活函数可以随便选择吗？
 
-### Sigmoid
+### (1) Sigmoid
 * 函数公式：
 
-$$f(x)=\frac{1}{1+e^{-x}}$$
+$$sigmoid(x)=\frac{1}{1+e^{-x}}$$
 
 <img src="asset/sigmoid.png">
 
 * 导数公式：
 
-$$f^{'}(x)=f(x)(1-f(x))$$
+$$sigmoid^{'}(x)=sigmoid(x)(1-sigmoid(x))$$
 
 <img src="asset/sigmoid_diff.png">
 
@@ -24,7 +24,7 @@ $$f^{'}(x)=f(x)(1-f(x))$$
     * sigmoid 导数的取值范围是 [0, 0.25]，最大值都是小于 1 的，反向传播时又是"链式传导"，经过几次相乘之后很容易就会出现梯度消失的问题，不利于模型加深；
     * sigmoid 的输出的均值不是0（即zero-centered），这会导致当前层接收到上一层的非0均值的信号作为输入，随着网络的加深，会改变数据的原始分布，不利于模型的收敛。
 
-### Tanh
+### (2) Tanh
 Tanh激活函数的公式为：
 
 $$Tanh(x)=\frac{e^x-e^{-x}}{e^{x}+e^{-x}}=1-\frac{2}{e^{2x}+1}$$
@@ -40,7 +40,7 @@ $$Tanh^{'}(x)=1-(Tanh(x))^2$$
 从结果我们发现 $tanh$ 和 $sigmoid$ 的函数及其导数的图像是非常相似的，不同的是前者函数取值范围为 $[-1,1]$,解决了 sigmoid 函数输出的均值不是0（zero-centered）的问题； 前者导函数取值的范围比后者要大，一定程度上缓解了梯度消失的现象。但是缺点也明显：**幂运算导致计算量大**
 
 
-### ReLU
+### (3) ReLU
 ReLU 全称为 Rectified Linear Unit，即修正线性单元函数。该函数的公式比较简单，相应的公式和图像如下表所示。
 * 函数公式
 
@@ -60,10 +60,46 @@ $$ReLU(x)=\begin{cases}
 
 <img src="asset/relu_diff.png">
 
-## 损失函数
+* ReLU函数以及其导数的计算公式非常的简单
+* 当 $x<0$, ReLU导函数直接将导数置为0，类似dropout，这在一方面能够产生稀疏矩阵减少一些特征的干扰，提升模型的鲁棒性；但是直接直接将导数置为0（不加任何策略）可能会导致一些神经元无法有效更新，导致直接坏死。
+* ReLU 的输出不是 0 均值的，这个和 sigmoid 类似。
 
-## Pytorch
+### (4) Leaky ReLU
 
+函数公式：
+
+$$Leaky \operatorname{ReLU}(x)=\left\{\begin{array}{ll}0.01 x & \text { if } z \leqslant 0 \\ z & \text { if } z>0\end{array}\right\}$$
+
+导数公式：
+
+
+### (5) ELU（指数线性单元）
+$$\operatorname{ELU}(x)=\left\{\begin{array}{ll}x, & x>0 \\ 
+\alpha(e^x-1), &  x\leqslant0
+\end{array}\right\}$$
+
+### (6) GELUs (Gaussian Error Linear Units) 
+
+### (7) Swish (Self-Gated Activation Function)
+
+### (8) Silu (Sigmoid Linear Unit)
+
+函数公式：
+
+$$silu(x)=x*sigmoid(x)$$
+
+<img src="asset/silu.png">
+
+导函数公式：
+
+$$silu^{'}(x)=sigmoid(x)(1+x-x*sigmoid(x))$$
+
+<img src="asset/silu_diff.png">
+
+## 二、损失函数
+
+
+## 三、采样算法
 ## 蒙特卡洛算法
 
 #### 例子1:估计圆周率的值
